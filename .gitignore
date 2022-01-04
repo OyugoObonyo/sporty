@@ -1,3 +1,4 @@
 /sporty
 TODO
 .vscode/settings.json
+*/__pycache__
