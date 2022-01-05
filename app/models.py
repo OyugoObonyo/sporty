@@ -1,10 +1,11 @@
 from datetime import datetime
+from flask_login import UserMixin
 from sqlalchemy.orm import backref
-from app import db
+from app import db, login
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     """
     A class reprsenting a user table in the database
     """
@@ -25,6 +26,15 @@ class User(db.Model):
         Method that confirms password hashes are indeed from users' passwords
         """
         return check_password_hash(self.password_hash, password)
+
+
+@login.user_loader
+def load_user(id):
+    """
+    A user loader function that aids flask in geting user id
+    so as to store it in session
+    """
+    return User.query.get(int(id))
 
 
 class Product(db.Model):
