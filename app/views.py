@@ -2,8 +2,10 @@ from werkzeug.utils import redirect
 from wtforms.fields.simple import EmailField
 from app import app, db
 from flask import render_template, flash, url_for
-from app.forms import RegistrationForm
+from app.forms import LoginForm, RegistrationForm
 from app.models import User
+from flask_login import current_user, login_user, logout_user
+
 
 @app.route('/')
 @app.route('/index', strict_slashes=False)
@@ -11,8 +13,14 @@ def index():
     return render_template('/index.html', title='Home')
 
 
-@app.route('/register', methods=['GET','POST'] ,strict_slashes=False)
+@app.route('/register', methods=['GET', 'POST'], strict_slashes=False)
 def register():
+    """
+    A route that handles user registration
+    """
+    # Handles the odd scenario where a registered user visits the /register view
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.email.data)
@@ -24,3 +32,29 @@ def register():
     return render_template('/register.html', title='Register', form=form)
 
 
+@app.route('/login', methods=['GET', 'POST'], strict_slashes=False)
+def login():
+    """
+    Route which handles user log ins
+    """
+    # Handles odd scenario where logged in user tries to access /login view
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash("Invalid Username or Password")
+            return redirect(url_for('login'))
+        login_user(user, remember=form.remember_me.data)
+        return redirect(url_for('index'))
+    return render_template('login.html', title='Log In', form=form)
+
+
+@app.route('/logout', methods=['GET', 'POST'], strict_slashes=False)
+def logout():
+    """
+    View to handle user logouts
+    """
+    logout_user()
+    return redirect(url_for('index'))
