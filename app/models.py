@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlalchemy.orm import backref
 from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -7,12 +8,11 @@ class User(db.Model):
     """
     A class reprsenting a user table in the database
     """
-    user_id = db.Column(db.Integer, index=True, primary_key=True)
+    id = db.Column(db.Integer, index=True, primary_key=True)
     username = db.Column(db.String(40), unique=True, nullable=False)
     email = db.Column(db.String(40), unique=True, nullable=False)
     password_hash = db.Column(db.String(128))
     products = db.relationship('Product', backref='vendor', lazy='dynamic')
-
 
     def set_password(self, password):
         """
@@ -35,11 +35,10 @@ class Product(db.Model):
     name = db.Column(db.String(40), nullable=False)
     description = db.Column(db.String(120), nullable=False)
     price = db.Column(db.Integer, nullable=False)
-    image = db.Column()
-    date_posted = db.Column()
-    product_vendor = db.Column()
-    product_brand = db.Column()
-    product_category = db.Column()
+    date_posted = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    vendor_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    brand_id = db.Column(db.Integer, db.ForeignKey('brand.id'))
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
 
 
 class Brand(db.Model):
@@ -48,7 +47,7 @@ class Brand(db.Model):
     """
     id = db.Column(db.Integer, index=True, primary_key=True)
     name = db.Column(db.String(40))
-    brand_products = db.relationship()
+    products = db.relationship('Product', backref='brand', lazy='dynamic')
 
 
 class Category(db.Model):
@@ -56,5 +55,5 @@ class Category(db.Model):
     A class representing a Category table in the database
     """
     id = db.Column(db.Integer, index=True, primary_key=True)
-    name = db.Column()
-    category_products = db.relationship()
+    name = db.Column(db.String(40))
+    products = db.relationship('Product', backref='category', lazy='dynamic')
