@@ -1,9 +1,10 @@
+from os import name
 from werkzeug.utils import redirect
 from wtforms.fields.simple import EmailField
 from app import app, db
 from flask import render_template, flash, url_for
 from app.forms import LoginForm, RegistrationForm, ProductForm
-from app.models import User
+from app.models import Product, User
 from flask_login import current_user, login_user, logout_user
 
 
@@ -61,9 +62,14 @@ def logout():
 
 
 @app.route('/create', methods=['GET', 'POST'])
-def create_product():
+def create():
     """
     View that creates a product in the database
     """
     form = ProductForm()
+    if form.validate_on_submit():
+        product = Product(name=form.name.data, description=form.description.data, brand=form.brand.data, category=form.category.data, price=form.price.data, vendor=current_user)
+        db.session.add(product)
+        db.session.commit()
+        return redirect(url_for('index.html'))
     return render_template('create.html', title='Create', form=form)
