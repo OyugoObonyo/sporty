@@ -51,3 +51,4 @@ class ProductForm(FlaskForm):
     brand = StringField('Brand', validators=[DataRequired()])
     category = StringField('Category', validators=[DataRequired()])
     price = IntegerField('Price', validators=[DataRequired()])
+    submit = SubmitField('Advertise product')
