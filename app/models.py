@@ -27,6 +27,9 @@ class User(UserMixin, db.Model):
         """
         return check_password_hash(self.password_hash, password)
 
+    def __repr__(self):
+        return "User: {}".format(self.username)
+
 
 @login.user_loader
 def load_user(id):
@@ -50,6 +53,10 @@ class Product(db.Model):
     brand_id = db.Column(db.Integer, db.ForeignKey('brand.id'))
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
 
+    def __repr__(self):
+        return "Product: {}".format(self.name)
+
+
 
 class Brand(db.Model):
     """
@@ -59,6 +66,9 @@ class Brand(db.Model):
     name = db.Column(db.String(40))
     products = db.relationship('Product', backref='brand', lazy='dynamic')
 
+    def __repr__(self):
+        return "Brand: {}".format(self.name)
+
 
 class Category(db.Model):
     """
@@ -67,3 +77,6 @@ class Category(db.Model):
     id = db.Column(db.Integer, index=True, primary_key=True)
     name = db.Column(db.String(40))
     products = db.relationship('Product', backref='category', lazy='dynamic')
+
+    def __repr__(self):
+        return "Category: {}".format(self.name)
