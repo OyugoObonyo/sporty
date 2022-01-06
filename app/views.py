@@ -2,7 +2,7 @@ from werkzeug.utils import redirect
 from wtforms.fields.simple import EmailField
 from app import app, db
 from flask import render_template, flash, url_for
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, ProductForm
 from app.models import User
 from flask_login import current_user, login_user, logout_user
 
@@ -58,3 +58,12 @@ def logout():
     """
     logout_user()
     return redirect(url_for('index'))
+
+
+@app.route('/create', methods=['GET', 'POST'])
+def create_product():
+    """
+    View that creates a product in the database
+    """
+    form = ProductForm()
+    return render_template('create.html', title='Create', form=form)
