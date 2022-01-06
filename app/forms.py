@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms.fields.numeric import IntegerField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from app.models import User
 
@@ -41,8 +42,12 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Log in')
 
 
-class SaleForm(FlaskForm):
+class ProductForm(FlaskForm):
     """
-    Form filled in when user intends to sell a product
+    Form filled in when user intends to post a product
     """
-    pass
+    name = StringField('Name', validators=[DataRequired()])
+    description = StringField('Description', validators=[DataRequired()])
+    brand = StringField('Brand', validators=[DataRequired()])
+    category = StringField('Category', validators=[DataRequired()])
+    price = IntegerField('Price', validators=[DataRequired()])
