@@ -6,6 +6,9 @@ from flask import render_template, flash, url_for
 from app.forms import LoginForm, RegistrationForm, ProductForm
 from app.models import Product, User, Category, Brand
 from flask_login import current_user, login_user, logout_user
+from werkzeug.utils import secure_filename
+import os
+import uuid
 
 
 @app.route('/')
@@ -60,6 +63,15 @@ def logout():
     """
     logout_user()
     return redirect(url_for('index'))
+
+
+def save_image(image_file):
+    """
+    Function that saves an image in the program
+    """
+    image = image_file.filename
+    image_path = os.path.join(app.root_path())
+
 
 
 @app.route('/create', methods=['GET', 'POST'])
