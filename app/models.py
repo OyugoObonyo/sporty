@@ -57,7 +57,6 @@ class Product(db.Model):
         return "Product: {}".format(self.name)
 
 
-
 class Brand(db.Model):
     """
     A class representing a brand table in the database
