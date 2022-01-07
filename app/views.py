@@ -11,7 +11,8 @@ from flask_login import current_user, login_user, logout_user
 @app.route('/')
 @app.route('/index', strict_slashes=False)
 def index():
-    return render_template('/index.html', title='Home')
+    products = Product.query.all()
+    return render_template('/index.html', title='Home', products=products)
 
 
 @app.route('/register', methods=['GET', 'POST'], strict_slashes=False)
