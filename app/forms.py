@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField
 from wtforms.fields import choices
 from wtforms.fields.numeric import IntegerField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
@@ -49,7 +49,7 @@ class ProductForm(FlaskForm):
     """
     name = StringField('Name', validators=[DataRequired()])
     description = StringField('Description', validators=[DataRequired()])
-    brand = StringField('Brand', choices=[('Nike'), ('Adidas')], validators=[DataRequired()])
-    category = StringField('Category', validators=[DataRequired()])
+    brand = SelectField('Brand', choices=[('Nike'), ('Adidas'), ('Puma'), ('Others')], validators=[DataRequired()])
+    category = SelectField('Category', choices=[('Shoes'), ('Jerseys'), ('Shorts'), ('Tracksuits'), ('Others')], validators=[DataRequired()])
     price = IntegerField('Price', validators=[DataRequired()])
     submit = SubmitField('Advertise product')
