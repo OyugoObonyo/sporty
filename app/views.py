@@ -4,7 +4,7 @@ from wtforms.fields.simple import EmailField
 from app import app, db
 from flask import render_template, flash, url_for
 from app.forms import LoginForm, RegistrationForm, ProductForm
-from app.models import Product, User
+from app.models import Product, User, Category, Brand
 from flask_login import current_user, login_user, logout_user
 
 
@@ -68,8 +68,8 @@ def create():
     """
     form = ProductForm()
     if form.validate_on_submit():
-        product = Product(name=form.name.data, description=form.description.data, brand=form.brand.data, category=form.category.data, price=form.price.data, vendor=current_user)
+        product = Product(name=form.name.data, description=form.description.data, brand_id=form.brand.data, category_id=form.category.data, price=form.price.data, vendor=current_user)
         db.session.add(product)
         db.session.commit()
-        return redirect(url_for('index.html'))
+        return redirect(url_for('index'))
     return render_template('create.html', title='Create', form=form)
