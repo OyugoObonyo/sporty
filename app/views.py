@@ -64,16 +64,16 @@ def logout():
     return redirect(url_for('index'))
 
 
-'''
 def save_image(image_file):
     """
-    Function that saves images posted by users
+    Function that saves image passed as an arg to it
+    and return the image's file name
     """
-    image = secure_filename(image_file.filename)
     image_id = str(uuid.uuid4())
-    image_file.save(os.path.join(app.config['PRODUCT_IMAGES_DIR'], image_id))
-    return image
-'''
+    file = image_id + '.png'
+    file_path = os.path.join(app.root_path, app.config['PRODUCT_IMAGES_DIR'], file)
+    Image.open(f).save(file_path)
+    return file
 
 
 @app.route('/create', methods=['GET', 'POST'])
@@ -84,10 +84,7 @@ def create():
     form = ProductForm()
     if form.validate_on_submit():
         f = form.image.data
-        image_id = str(uuid.uuid4())
-        img_file = image_id + '.png'
-        file_path = os.path.join(app.root_path, app.config['PRODUCT_IMAGES_DIR'], img_file)
-        Image.open(f).save(file_path)
+        img_file = save_image(f)
         product = Product(name=form.name.data, description=form.description.data, brand_id=form.brand.data, image_file=img_file, category_id=form.category.data, price=form.price.data, vendor=current_user)
         db.session.add(product)
         db.session.commit()
