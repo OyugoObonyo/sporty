@@ -1,14 +1,13 @@
 from os import name
 from werkzeug.utils import redirect
-from wtforms.fields.simple import EmailField
 from app import app, db
 from flask import render_template, flash, url_for
 from app.forms import LoginForm, RegistrationForm, ProductForm
 from app.models import Product, User, Category, Brand
 from flask_login import current_user, login_user, logout_user
-from werkzeug.utils import secure_filename
 import os
 import uuid
+from PIL import Image
 
 
 @app.route('/')
@@ -65,13 +64,16 @@ def logout():
     return redirect(url_for('index'))
 
 
+'''
 def save_image(image_file):
     """
-    Function that saves an image in the program
+    Function that saves images posted by users
     """
-    image = image_file.filename
-    image_path = os.path.join(app.root_path())
-
+    image = secure_filename(image_file.filename)
+    image_id = str(uuid.uuid4())
+    image_file.save(os.path.join(app.config['PRODUCT_IMAGES_DIR'], image_id))
+    return image
+'''
 
 
 @app.route('/create', methods=['GET', 'POST'])
@@ -81,7 +83,12 @@ def create():
     """
     form = ProductForm()
     if form.validate_on_submit():
-        product = Product(name=form.name.data, description=form.description.data, brand_id=form.brand.data, category_id=form.category.data, price=form.price.data, vendor=current_user)
+        f = form.image.data
+        image_id = str(uuid.uuid4())
+        img_file = image_id + '.png'
+        file_path = os.path.join(app.root_path, app.config['PRODUCT_IMAGES_DIR'], img_file)
+        Image.open(f).save(file_path)
+        product = Product(name=form.name.data, description=form.description.data, brand_id=form.brand.data, image_file=img_file, category_id=form.category.data, price=form.price.data, vendor=current_user)
         db.session.add(product)
         db.session.commit()
         return redirect(url_for('index'))
