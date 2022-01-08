@@ -10,3 +10,4 @@ class Config(object):
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     PRODUCT_IMAGES_DIR = "static/images/products"
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024
