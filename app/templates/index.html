@@ -1,5 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>This is the index page</h1>
+<div class="container">
+    <div class="row row-cols-3">
+       {% for product in products %}
+            <div class="col">
+                {{ product.name }}<br>
+                <div>
+                    <img src="{{ url_for('static', filename = 'images/products/' + product.image_file ) }}">
+                </div>
+                {{ product.description }}<br>
+                {{ product.brand_id}}<br>
+                {{ product.category_id }}<br>
+                {{ product.price }}<br>
+                sold by {{ product.vendor }}
+            </div>
+        {% endfor %}      
+    </div>
+</div>
 {% endblock %}
