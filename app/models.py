@@ -47,7 +47,7 @@ class Product(db.Model):
     id = db.Column(db.Integer, index=True, primary_key=True)
     name = db.Column(db.String(40), nullable=False)
     description = db.Column(db.String(120), nullable=False)
-    image = db.Column(db.String(40))
+    image_file = db.Column(db.String(40))
     price = db.Column(db.Integer, nullable=False)
     date_posted = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     vendor_id = db.Column(db.Integer, db.ForeignKey('user.id'))
