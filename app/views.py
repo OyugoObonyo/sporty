@@ -5,6 +5,7 @@ from flask import render_template, flash, url_for
 from app.forms import LoginForm, RegistrationForm, ProductForm
 from app.models import Product, User, Category, Brand
 from flask_login import current_user, login_user, logout_user
+from werkzeug.exceptions import RequestEntityTooLarge
 import os
 import uuid
 from PIL import Image
@@ -67,12 +68,13 @@ def logout():
 def save_image(image_file):
     """
     Function that saves image passed as an arg to it
-    and return the image's file name
+    and return the image's filename
     """
     image_id = str(uuid.uuid4())
     file = image_id + '.png'
     file_path = os.path.join(app.root_path, app.config['PRODUCT_IMAGES_DIR'], file)
-    Image.open(f).save(file_path)
+    # Utilize PIL library to manipulate image_file
+    Image.open(image_file).save(file_path)
     return file
 
 
@@ -81,12 +83,16 @@ def create():
     """
     View that creates a product in the database
     """
-    form = ProductForm()
-    if form.validate_on_submit():
-        f = form.image.data
-        img_file = save_image(f)
-        product = Product(name=form.name.data, description=form.description.data, brand_id=form.brand.data, image_file=img_file, category_id=form.category.data, price=form.price.data, vendor=current_user)
-        db.session.add(product)
-        db.session.commit()
-        return redirect(url_for('index'))
+    # Catch error resulting from user publishing an image > 16MB
+    try:
+        form = ProductForm()
+        if form.validate_on_submit():
+            f = form.image.data
+            img_file = save_image(f)
+            product = Product(name=form.name.data, description=form.description.data, brand_id=form.brand.data, image_file=img_file, category_id=form.category.data, price=form.price.data, vendor=current_user)
+            db.session.add(product)
+            db.session.commit()
+            return redirect(url_for('index'))
+    except RequestEntityTooLarge:
+        return "Upload Limit is 16 MB"
     return render_template('create.html', title='Create', form=form)
