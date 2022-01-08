@@ -13,7 +13,7 @@
                 {{ product.brand_id}}<br>
                 {{ product.category_id }}<br>
                 {{ product.price }}<br>
-                sold by {{ product.vendor }}
+                <small>Posted by {{ product.vendor }} on {{ product.date_posted }}</small>
             </div>
         {% endfor %}      
     </div>
