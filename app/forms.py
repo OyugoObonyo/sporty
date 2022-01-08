@@ -49,7 +49,7 @@ class ProductForm(FlaskForm):
     """
     name = StringField('Name', validators=[DataRequired()])
     description = StringField('Description', validators=[DataRequired()])
-    image = FileField('Image', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
+    image = FileField('Image', validators=[DataRequired(), FileAllowed(['jpg', 'jpeg', 'png'])])
     brand = SelectField('Brand', choices=[('Nike'), ('Adidas'), ('Puma'), ('Others')], validators=[DataRequired()])
     category = SelectField('Category', choices=[('Shoes'), ('Jerseys'), ('Shorts'), ('Tracksuits'), ('Others')], validators=[DataRequired()])
     price = IntegerField('Price', validators=[DataRequired()])
