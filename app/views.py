@@ -89,10 +89,30 @@ def create():
         if form.validate_on_submit():
             f = form.image.data
             img_file = save_image(f)
-            product = Product(name=form.name.data, description=form.description.data, brand_id=form.brand.data, image_file=img_file, category_id=form.category.data, price=form.price.data, vendor=current_user)
+            product_uuid = str(uuid.uuid4())
+            product = Product(name=form.name.data, description=form.description.data, brand_id=form.brand.data, image_file=img_file, category_id=form.category.data, price=form.price.data, prod_uuid=product_uuid, vendor=current_user)
             db.session.add(product)
             db.session.commit()
             return redirect(url_for('index'))
     except RequestEntityTooLarge:
         return "Upload Limit is 16 MB"
     return render_template('create.html', title='Create', form=form)
+
+
+
+@app.route('/add_to_cart/<int:uuid>', methods=['GET', 'POST'])
+def add_to_cart(id):
+    """
+    View that is triggered when user adds item to cart 
+    """
+    return "Yay, you have added product to cart!"
+
+
+@app.route('/delete_from_cart/<int:id>')
+@app.route('/buy/<int:id>', methods=['GET','POST'])
+def buy(id):
+    """
+    View that handles user purchases
+    """
+    pass
+    
