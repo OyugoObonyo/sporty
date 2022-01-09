@@ -99,17 +99,23 @@ def create():
     return render_template('create.html', title='Create', form=form)
 
 
-
-@app.route('/add_to_cart/<int:uuid>', methods=['GET', 'POST'])
-def add_to_cart(id):
+@app.route('/add-to-cart/<uuid>', methods=['GET', 'POST'])
+def add_to_cart(uuid):
     """
-    View that is triggered when user adds item to cart 
+    View that is triggered when user adds item to cart
     """
     return "Yay, you have added product to cart!"
 
 
-@app.route('/delete_from_cart/<int:id>')
-@app.route('/buy/<int:id>', methods=['GET','POST'])
+@app.route('/delete-from-cart/<int:id>')
+def delete_from_cart():
+    """
+    View triggered when user want to delete item from cart
+    """
+    pass
+
+
+@app.route('/buy/<int:id>', methods=['GET', 'POST'])
 def buy(id):
     """
     View that handles user purchases
