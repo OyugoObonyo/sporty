@@ -2,18 +2,19 @@
 
 {% block content %}
 <div class="container">
-    <div class="row row-cols-3">
+    <div class="row">
        {% for product in products %}
-            <div class="col">
-                {{ product.name }}<br>
-                <div>
-                    <img src="{{ url_for('static', filename = 'images/products/' + product.image_file ) }}" style="width: 200px; height: 200px; object-fit: cover;">
+            <div class="col-md-3 mt-3">
+                <div class="card">
+                    <img src="{{ url_for('static', filename = 'images/products/' + product.image_file ) }}" class="card-img-top" height = 200 object-fit="centre"> 
+                    <div class="card-body">
+                        <h5 class="text-center">{{ product.name }}</h5>
+                        <p class="text-center">Ksh.{{ product.price }}<br></p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ url_for('add_to_cart', uuid = product.prod_uuid ) }}" class="float-center btn btn-sm btn-dark">Add to cart</a>
+                    </div>
                 </div>
-                {{ product.description }}<br>
-                {{ product.brand_id}}<br>
-                {{ product.category_id }}<br>
-                {{ product.price }}<br>
-                <small>Posted by {{ product.vendor }} on {{ product.date_posted }}</small>
             </div>
         {% endfor %}      
     </div>
