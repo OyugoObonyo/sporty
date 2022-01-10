@@ -15,7 +15,8 @@ class User(UserMixin, db.Model):
     user_uuid = db.Column(db.String(36))
     password_hash = db.Column(db.String(128))
     products = db.relationship('Product', backref='vendor', lazy='dynamic')
-    
+    cart = db.relationship('Cart', backref='owner', uselist=False)
+
     def set_password(self, password):
         """
         Method that generates users' password hashes
@@ -55,6 +56,7 @@ class Product(db.Model):
     vendor_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     brand_id = db.Column(db.Integer, db.ForeignKey('brand.id'))
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+    cart_id = db.Column(db.Integer, db.ForeignKey('cart.id'))
 
     def __repr__(self):
         return "Product: {}".format(self.name)
@@ -82,3 +84,22 @@ class Category(db.Model):
 
     def __repr__(self):
         return "Category: {}".format(self.name)
+
+
+class Cart(db.Model):
+    """
+    A class representing a cart table in the database
+    """
+    id = db.Column(db.Integer, index=True, primary_key=True)
+    count = db.Column(db.Integer, default=0)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    products = db.relationship('Product', backref='cart', lazy='dynamic')
+
+    def add_count(self):
+        """
+        Method which adds cart count by one if product is added to cart
+        """
+        self.count = self.count + 1
+
+    def __repr__(self):
+        return "Cart_ID: {}".format(self.id)
