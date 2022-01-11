@@ -136,22 +136,26 @@ def display_cart():
     """
     Route that displays a user's cart
     """
-    if 'cart' not in session:
+    if 'cart' not in session or len(session['cart']) <= 0:
         flash("Your cart is currently empty")
-        return redirect(request.referrer)
+        return redirect(url_for('index'))
     total_price = 0
     for key, product in session['cart'].items():
         total_price += product['price']
     return render_template('/cart.html', title='Cart', total_price=total_price)
 
 
-@app.route('/delete-from-cart/<uuid>')
-def delete_from_cart():
+@app.route('/delete-from-cart/<int:id>')
+def delete_from_cart(id):
     """
     View triggered when user want to delete item from cart
     """
-    product = Product.query.filter_by
-    pass
+    session.modified = True
+    for key, value in session['cart'].items():
+        if int(key) == id:
+            session['cart'].pop(key, None)
+            return redirect(url_for('display_cart'))
+    return redirect(url_for('index'))
 
 
 @app.route('/buy/<int:id>', methods=['GET', 'POST'])
