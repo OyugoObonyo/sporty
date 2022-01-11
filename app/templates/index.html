@@ -12,7 +12,10 @@
                         <p class="text-center">Ksh.{{ product.price }}<br></p>
                     </div>
                     <div class="card-footer">
-                        <a href="{{ url_for('add_to_cart', uuid = product.prod_uuid ) }}" class="float-center btn btn-sm btn-dark">Add to cart</a>
+                        <form action="{{ url_for('add_to_cart') }}" method="post">
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <button type="submit" class="float-center btn btn-sm btn-dark">Add to cart</a>
+                        </form>
                     </div>
                 </div>
             </div>
