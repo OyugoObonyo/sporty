@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, IntegerField
 from flask_wtf.file import FileField, FileAllowed
-from wtforms.fields import choices
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from app.models import User
 
@@ -50,7 +49,7 @@ class ProductForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     description = StringField('Description', validators=[DataRequired()])
     image = FileField('Image', validators=[DataRequired(), FileAllowed(['jpg', 'jpeg', 'png'])])
-    brand = SelectField('Brand', validators=[DataRequired()])
-    category = SelectField('Category', validators=[DataRequired()])
+    brand = StringField('Brand', validators=[DataRequired()])
+    category = StringField('Category', validators=[DataRequired()])
     price = IntegerField('Price', validators=[DataRequired()])
     submit = SubmitField('Publish product')
