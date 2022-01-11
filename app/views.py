@@ -76,11 +76,11 @@ def save_image(image_file):
     and return the image's filename
     """
     image_id = str(uuid.uuid4())
-    file = image_id + '.png'
-    file_path = os.path.join(app.root_path, app.config['PRODUCT_IMAGES_DIR'], file)
+    file_name = image_id + '.png'
+    file_path = os.path.join(app.root_path, app.config['PRODUCT_IMAGES_DIR'], file_name)
     # Utilize PIL library to manipulate image_file
     Image.open(image_file).save(file_path)
-    return file
+    return file_name
 
 
 @app.route('/create', methods=['GET', 'POST'])
