@@ -1,7 +1,8 @@
+from itertools import product
 from os import name
 from werkzeug.utils import redirect
 from app import app, db
-from flask import render_template, flash, url_for
+from flask import render_template, flash, url_for, session, request
 from app.forms import LoginForm, RegistrationForm, ProductForm
 from app.models import Product, User, Category, Brand
 from flask_login import current_user, login_user, logout_user
@@ -99,12 +100,46 @@ def create():
     return render_template('create.html', title='Create', form=form)
 
 
-@app.route('/add-to-cart/<uuid>', methods=['GET', 'POST'])
-def add_to_cart(uuid):
+def merge_dict(dict_1, dict_2):
     """
-    View that is triggered when user adds item to cart
+    Function that merges items from two dictionaries
+    into a single dict
     """
-    return "Yay, you have added product to cart!"
+    if isinstance(dict_1, list) and isinstance(dict_2, list):
+        return dict_1 + dict_2
+    else:
+        return dict(list(dict_1.items()) + list(dict_2.items()))
+
+
+@app.route('/add-to-cart', methods=['GET', 'POST'])
+def add_to_cart():
+    """
+    Route that is triggered when user adds item to cart
+    """
+    prod_id = request.form.get('product_id')
+    product = Product.query.filter_by(id=prod_id).first()
+    dic_items = {prod_id: {'name': product.name, 'description': product.description, 'price': product.price}}
+    if 'cart' in session:
+        if prod_id in session['cart']:
+            flash('This item is already in your cart')
+            return redirect(request.referrer)
+        else:
+            session['cart'] = merge_dict(session['cart'], dic_items)
+            return redirect(request.referrer)
+    else:
+        session['cart'] = dic_items
+        return redirect(request.referrer)
+
+
+@app.route('/display-cart')
+def display_cart():
+    """
+    Route that displays a user's cart
+    """
+    if 'cart' not in session:
+        flash("Your cart is currently empty")
+        return redirect(request.referrer)
+    return render_template('/cart.html', title='Cart')
 
 
 @app.route('/delete-from-cart/<int:id>')
