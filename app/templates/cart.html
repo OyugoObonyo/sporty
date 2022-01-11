@@ -16,7 +16,7 @@
                     <td>{{ loop.index }}</td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.price }}</td>
-                    <td><a href="#">Remove from cart</a></td>
+                    <td><a href="{{ url_for('delete_from_cart', id=key) }}">Remove from cart</a></td>
                 </tr>
                 {% endfor %}
                 <tr>
