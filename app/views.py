@@ -5,11 +5,12 @@ from app import app, db
 from flask import render_template, flash, url_for, session, request
 from app.forms import LoginForm, RegistrationForm, ProductForm
 from app.models import Product, User, Category, Brand
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.exceptions import RequestEntityTooLarge
 import os
 import uuid
 from PIL import Image
+from werkzeug.urls import url_parse
 
 
 @app.route('/')
@@ -53,7 +54,10 @@ def login():
             flash("Invalid Username or Password")
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
-        return redirect(url_for('index'))
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != "":
+            next_page = url_for('index')
+        return redirect(next_page)
     return render_template('login.html', title='Log In', form=form)
 
 
@@ -80,6 +84,7 @@ def save_image(image_file):
 
 
 @app.route('/create', methods=['GET', 'POST'])
+@login_required
 def create():
     """
     View that creates a product in the database
@@ -112,6 +117,7 @@ def merge_dict(dict_1, dict_2):
 
 
 @app.route('/add-to-cart', methods=['GET', 'POST'])
+@login_required
 def add_to_cart():
     """
     Route that is triggered when user adds item to cart
