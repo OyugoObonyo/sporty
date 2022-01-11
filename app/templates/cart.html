@@ -1,5 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{{ session['cart'] }}
+<div class="container">
+    <div class="row">
+        <table class="table table-sm">
+            <thead>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for key, product in session['cart'].items()  %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.price }}</td>
+                    <td><a href="#">Remove from cart</a></td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3">Total: {{ total_price }}</td>
+                    <td colspan="4"><a href="#">Complete Order</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

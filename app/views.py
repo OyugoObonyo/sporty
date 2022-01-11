@@ -139,14 +139,18 @@ def display_cart():
     if 'cart' not in session:
         flash("Your cart is currently empty")
         return redirect(request.referrer)
-    return render_template('/cart.html', title='Cart')
+    total_price = 0
+    for key, product in session['cart'].items():
+        total_price += product['price']
+    return render_template('/cart.html', title='Cart', total_price=total_price)
 
 
-@app.route('/delete-from-cart/<int:id>')
+@app.route('/delete-from-cart/<uuid>')
 def delete_from_cart():
     """
     View triggered when user want to delete item from cart
     """
+    product = Product.query.filter_by
     pass
 
 
