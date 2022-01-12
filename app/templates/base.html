@@ -27,7 +27,7 @@
                       </a>
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {% for category in categories %}
-                        <li><a class="dropdown-item" href="#">{{ category }}</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('display_category', name=category) }}">{{ category }}</a></li>
                         {% endfor %}
                       </ul>
                     </li>
@@ -36,9 +36,9 @@
                         Brands
                       </a>
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        {% for brand in brands %}
-                        <li><a class="dropdown-item" href="{{ url_for('display_brand', name=brand) }}">{{ brand }}</a></li>
-                        {% endfor %}
+                      {% for brand in brands %}
+                      <li><a class="dropdown-item" href="{{ url_for('display_brand', name=brand) }}">{{ brand }}</a></li>
+                      {% endfor %}
                       </ul>
                       <li class="nav-item">
                           {% if current_user.is_authenticated %}
