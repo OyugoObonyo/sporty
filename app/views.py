@@ -1,5 +1,6 @@
 from itertools import product
 from os import name
+from werkzeug.routing import ValidationError
 from werkzeug.utils import redirect
 from app import app, db
 from flask import render_template, flash, url_for, session, request
@@ -103,6 +104,9 @@ def create():
             f = form.image.data
             img_file = save_image(f)
             product_uuid = str(uuid.uuid4())
+            if form.price.data <= 0:
+                flash('Price should be greater than Ksh.0')
+                return redirect(url_for('create'))
             product = Product(name=form.name.data, description=form.description.data, brand=form.brand.data, image_file=img_file, category=form.category.data, price=form.price.data, prod_uuid=product_uuid, vendor=current_user)
             db.session.add(product)
             db.session.commit()
@@ -191,6 +195,18 @@ def display_category(name):
     categories = CATEGORIES
     products = Product.query.filter_by(category=name).all()
     return render_template('/categories.html', title=name, products=products, brands=brands, categories=categories)
+
+
+@app.route('/profile/<id>')
+@login_required
+def get_profile(id):
+    """
+    Renders profile page of particular user
+    """
+    user = User.query.get(id)
+    id = user.id
+    products = Product.query.filter_by(vendor_id=id).all()
+    return render_template('/profile.html', title=name, products=products)
 
 
 @app.route('/buy/<int:id>', methods=['GET', 'POST'])
