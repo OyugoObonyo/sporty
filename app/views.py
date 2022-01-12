@@ -12,8 +12,8 @@ import uuid
 from PIL import Image
 from werkzeug.urls import url_parse
 
-BRANDS = ['Nike', 'Adidas', 'Puma', 'Others']
-CATEGORIES = ['Shoes', 'Jerseys', 'Tracksuit', 'Others']
+BRANDS = ['Nike', 'Adidas', 'Puma', 'New Balance', 'Kalenji', 'Others']
+CATEGORIES = ['Shoes', 'Jerseys', 'Tracksuits', 'Sneakers', 'Others']
 
 
 @app.route('/')
@@ -176,8 +176,10 @@ def display_brand(name):
     """
     Route which displays all the products of a particular brand
     """
+    brands = BRANDS
+    categories = CATEGORIES
     products = Product.query.filter_by(brand=name).all()
-    return render_template('/brands.html', title=name, products=products)
+    return render_template('/brands.html', title=name, products=products, brands=brands, categories=categories)
 
 
 @app.route('/display-category/<name>')
@@ -185,7 +187,10 @@ def display_category(name):
     """
     Route which displays all the products of a particular brand
     """
-    pass
+    brands = BRANDS
+    categories = CATEGORIES
+    products = Product.query.filter_by(category=name).all()
+    return render_template('/categories.html', title=name, products=products, brands=brands, categories=categories)
 
 
 @app.route('/buy/<int:id>', methods=['GET', 'POST'])
