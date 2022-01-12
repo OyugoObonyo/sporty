@@ -12,12 +12,17 @@ import uuid
 from PIL import Image
 from werkzeug.urls import url_parse
 
+BRANDS = ['Nike', 'Adidas', 'Puma', 'Others']
+CATEGORIES = ['Shoes', 'Jerseys', 'Tracksuit', 'Others']
+
 
 @app.route('/')
 @app.route('/index', strict_slashes=False)
 def index():
+    brands = BRANDS
+    categories = CATEGORIES
     products = Product.query.all()
-    return render_template('/index.html', title='Home', products=products)
+    return render_template('/index.html', title='Home', products=products, brands=brands, categories=categories)
 
 
 @app.route('/register', methods=['GET', 'POST'], strict_slashes=False)
@@ -162,6 +167,22 @@ def delete_from_cart(id):
             session['cart'].pop(key, None)
             return redirect(url_for('display_cart'))
     return redirect(url_for('index'))
+
+
+@app.route('/display-brand/<name>')
+def display_brand(name):
+    """
+    Route which displays all the products of a particular brand
+    """
+    pass
+
+
+@app.route('/display-brand/<name>')
+def display_brand(name):
+    """
+    Route which displays all the products of a particular brand
+    """
+    pass
 
 
 @app.route('/buy/<int:id>', methods=['GET', 'POST'])
