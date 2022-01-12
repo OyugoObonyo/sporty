@@ -1,5 +1,34 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-{% enblock %}
+<h1>Catalogue: </h1>
+<div class="container">
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-3 mt-3">
+                <div class="card">
+                    <img src="{{ url_for('static', filename = 'images/products/' + product.image_file ) }}" class="card-img-top" height = 200 object-fit="centre"> 
+                    <div class="card-body">
+                        <h5 class="text-center">{{ product.name }}</h5>
+                        <p class="text-center">Ksh.{{ product.price }}<br></p>
+                        <small><p>Advertised on: {{ moment(product.date_posted).format('LLL') }}</p></small>
+                    </div>
+                    <div class="card-footer">
+                        {% if current_user.id == product.vendor_id %}
+                        <form action="{{ url_for('add_to_cart') }}" method="post">
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <button type="submit" class="float-center btn btn-sm btn-dark">Delete item</a>
+                        </form>
+                        {% else %}
+                        <form action="{{ url_for('add_to_cart') }}" method="post">
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <button type="submit" class="float-center btn btn-sm btn-dark">Add to cart</a>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}      
+    </div>
+</div>
+{% endblock %}
