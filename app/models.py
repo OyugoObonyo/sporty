@@ -53,32 +53,8 @@ class Product(db.Model):
     price = db.Column(db.Integer, nullable=False)
     date_posted = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     vendor_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    brand_id = db.Column(db.Integer, db.ForeignKey('brand.id'))
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+    brand = db.Column(db.String(12))
+    category = db.Column(db.String(12))
 
     def __repr__(self):
         return "Product: {}".format(self.name)
-
-
-class Brand(db.Model):
-    """
-    A class representing a brand table in the database
-    """
-    id = db.Column(db.Integer, index=True, primary_key=True)
-    name = db.Column(db.String(40))
-    products = db.relationship('Product', backref='brand', lazy='dynamic')
-
-    def __repr__(self):
-        return "Brand: {}".format(self.name)
-
-
-class Category(db.Model):
-    """
-    A class representing a Category table in the database
-    """
-    id = db.Column(db.Integer, index=True, primary_key=True)
-    name = db.Column(db.String(40))
-    products = db.relationship('Product', backref='category', lazy='dynamic')
-
-    def __repr__(self):
-        return "Category: {}".format(self.name)
