@@ -4,7 +4,7 @@ from werkzeug.utils import redirect
 from app import app, db
 from flask import render_template, flash, url_for, session, request
 from app.forms import LoginForm, RegistrationForm, ProductForm
-from app.models import Product, User, Category, Brand
+from app.models import Product, User
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.exceptions import RequestEntityTooLarge
 import os
@@ -95,19 +95,21 @@ def create():
     View that creates a product in the database
     """
     # Catch error resulting from user publishing an image > 16MB
+    brands = BRANDS
+    categories = CATEGORIES
     try:
         form = ProductForm()
         if form.validate_on_submit():
             f = form.image.data
             img_file = save_image(f)
             product_uuid = str(uuid.uuid4())
-            product = Product(name=form.name.data, description=form.description.data, brand_id=form.brand.data, image_file=img_file, category_id=form.category.data, price=form.price.data, prod_uuid=product_uuid, vendor=current_user)
+            product = Product(name=form.name.data, description=form.description.data, brand=form.brand.data, image_file=img_file, category=form.category.data, price=form.price.data, prod_uuid=product_uuid, vendor=current_user)
             db.session.add(product)
             db.session.commit()
             return redirect(url_for('index'))
     except RequestEntityTooLarge:
         return "Upload Limit is 16 MB"
-    return render_template('create.html', title='Create', form=form)
+    return render_template('create.html', title='Create', brands=brands, categories=categories, form=form)
 
 
 def merge_dict(dict_1, dict_2):
@@ -174,11 +176,12 @@ def display_brand(name):
     """
     Route which displays all the products of a particular brand
     """
-    pass
+    products = Product.query.filter_by(brand=name).all()
+    return render_template('/brands.html', title=name, products=products)
 
 
-@app.route('/display-brand/<name>')
-def display_brand(name):
+@app.route('/display-category/<name>')
+def display_category(name):
     """
     Route which displays all the products of a particular brand
     """
@@ -191,4 +194,3 @@ def buy(id):
     View that handles user purchases
     """
     pass
-    
