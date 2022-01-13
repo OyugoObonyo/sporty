@@ -1,8 +1,8 @@
 {% extends 'base2.html' %}
 
 {% block content %}
-        <header>Join us at Sporty</header>
         <form action="" method="post" novalidate>
+            <div class="form-group mt-3">
             {{ form.hidden_tag() }}
             <p>
                  {{ form.username.label }}<br>
@@ -33,5 +33,6 @@
                 {% endfor %}
             </p>
             <p>{{ form.submit() }}</p>
+            </div>
         </form>
 {% endblock %}
