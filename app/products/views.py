@@ -45,11 +45,11 @@ def create():
             product_uuid = str(uuid.uuid4())
             if form.price.data <= 0:
                 flash('Price should be greater than Ksh.0')
-                return redirect(url_for('create'))
+                return redirect(url_for('products.create'))
             product = Product(name=form.name.data, description=form.description.data, brand=form.brand.data, image_file=img_file, category=form.category.data, price=form.price.data, prod_uuid=product_uuid, vendor=current_user)
             db.session.add(product)
             db.session.commit()
-            return redirect(url_for('index'))
+            return redirect(url_for('main.index'))
     except RequestEntityTooLarge:
         return "Upload Limit is 16 MB"
     return render_template('create.html', title='Create', brands=brands, categories=categories, form=form)
@@ -63,7 +63,7 @@ def display_brand(name):
     brands = BRANDS
     categories = CATEGORIES
     products = Product.query.filter_by(brand=name).all()
-    return render_template('/brands.html', title=name, products=products, brands=brands, categories=categories)
+    return render_template('brands.html', title=name, products=products, brands=brands, categories=categories)
 
 
 @bp.route('/display-category/<name>')
@@ -116,11 +116,11 @@ def display_cart():
     """
     if 'cart' not in session or len(session['cart']) <= 0:
         flash("Your cart is currently empty")
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     total_price = 0
     for key, product in session['cart'].items():
         total_price += product['price']
-    return render_template('/cart.html', title='Cart', total_price=total_price)
+    return render_template('cart.html', title='Cart', total_price=total_price)
 
 
 @bp.route('/delete-from-cart/<int:id>')
@@ -129,13 +129,13 @@ def delete_from_cart(id):
     View triggered when user want to delete item from cart
     """
     if 'cart' not in session or len(session['cart']) <= 0:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     session.modified = True
     for key, item in session['cart'].items():
         if int(key) == id:
             session['cart'].pop(key, None)
-            return redirect(url_for('display_cart'))
-    return redirect(url_for('index'))
+            return redirect(url_for('products.display_cart'))
+    return redirect(url_for('main.index'))
 
 
 def delete_image(image_file):

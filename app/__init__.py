@@ -30,13 +30,13 @@ def create_app(config_class=Config):
 
     # Register created blueprints to the app
     from app.auth import bp as auth_bp
-    app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(auth_bp)
 
     from app.main import bp as main_bp
-    app.register_blueprint(main_bp, url_prefix='/main')
+    app.register_blueprint(main_bp)
 
     from app.products import bp as products_bp
-    app.register_blueprint(products_bp, url_prefix='/products')
+    app.register_blueprint(products_bp)
 
     return app
 

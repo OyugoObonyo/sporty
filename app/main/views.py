@@ -27,4 +27,4 @@ def get_profile(id):
     name = user.username
     id = user.id
     products = Product.query.filter_by(vendor_id=id).all()
-    return render_template('/profile.html', title=name, products=products)
+    return render_template('profile.html', title=name, products=products)
