@@ -162,7 +162,7 @@ def display_cart():
     return render_template('/cart.html', title='Cart', total_price=total_price)
 
 
-@app.route('/delete-from-cart/<int:id>')
+@app.route('/delete-from-cart/<id>')
 def delete_from_cart(id):
     """
     View triggered when user want to delete item from cart
@@ -209,9 +209,23 @@ def get_profile(id):
     return render_template('/profile.html', title=name, products=products)
 
 
-@app.route('/buy/<int:id>', methods=['GET', 'POST'])
-def buy(id):
+def delete_image(image_file):
     """
-    View that handles user purchases
+    Function that deletes an image file of a particular product
     """
-    pass
+    file_path = file_path = os.path.join(app.root_path, app.config['PRODUCT_IMAGES_DIR'], image_file)
+    os.remove(file_path)
+
+
+@app.route('/delete-product', methods=['GET', 'POST'])
+def delete_product():
+    """
+    Function that deletes a product from the database
+    """
+    prod_id = request.form.get('product_id')
+    product = Product.query.filter_by(id=prod_id).first()
+    image_file = product.image_file
+    db.session.delete(product)
+    delete_image(image_file)
+    db.session.commit()
+    return redirect(request.referrer)
