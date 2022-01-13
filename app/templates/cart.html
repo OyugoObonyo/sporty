@@ -16,12 +16,11 @@
                     <td>{{ loop.index }}</td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.price }}</td>
-                    <td><a href="{{ url_for('delete_from_cart', id=key) }}">Remove from cart</a></td>
+                    <td><a href="{{ url_for('delete_from_cart', id=key) }}" class="btn btn-sm btn-danger">Remove from cart</a></td>
                 </tr>
                 {% endfor %}
                 <tr>
                     <td colspan="3">Total: {{ total_price }}</td>
-                    <td colspan="4"><a href="#">Complete Order</a></td>
                 </tr>
             </tbody>
         </table>
