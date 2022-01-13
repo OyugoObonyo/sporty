@@ -5,9 +5,9 @@
                 <div class="card">
                     <img src="{{ url_for('static', filename = 'images/products/' + product.image_file ) }}" class="card-img-top" height = 200 object-fit="centre"> 
                     <div class="card-body">
-                        <h5 class="text-center">{{ product.name }}</h5>
-                        <p class="text-center">Ksh.{{ product.price }}<br></p>
-                        <small><p>Seller:<a href = "{{ url_for('get_profile', id=product.vendor.id ) }}">{{ product.vendor }}</a></p></small>
+                        <h5>{{ product.name }}</h5>
+                        <p>Ksh.{{ product.price }}<br></p>
+                        <small><p>Seller: <a href = "{{ url_for('get_profile', id=product.vendor.id ) }}">{{ product.vendor }}</a></p></small>
                     </div>
                     <div class="card-footer text-center">
                         <form action="{{ url_for('add_to_cart') }}" method="post">
