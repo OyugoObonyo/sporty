@@ -135,7 +135,7 @@ def add_to_cart():
     """
     prod_id = request.form.get('product_id')
     product = Product.query.filter_by(id=prod_id).first()
-    dic_items = {prod_id: {'name': product.name, 'description': product.description, 'price': product.price}}
+    dic_items = {prod_id: {'name': product.name, 'description': product.description, 'price': product.price, 'vendor': product.vendor_id}}
     if 'cart' in session:
         if prod_id in session['cart']:
             flash('This item is already in your cart')
@@ -162,13 +162,15 @@ def display_cart():
     return render_template('/cart.html', title='Cart', total_price=total_price)
 
 
-@app.route('/delete-from-cart/<id>')
+@app.route('/delete-from-cart/<int:id>')
 def delete_from_cart(id):
     """
     View triggered when user want to delete item from cart
     """
+    if 'cart' not in session or len(session['cart']) <= 0:
+        return redirect(url_for('index'))
     session.modified = True
-    for key, value in session['cart'].items():
+    for key, item in session['cart'].items():
         if int(key) == id:
             session['cart'].pop(key, None)
             return redirect(url_for('display_cart'))
