@@ -44,6 +44,8 @@ class Product(db.Model):
     """
     A class representing a product table in the database
     """
+    __tablename__ = "product"
+    
     id = db.Column(db.Integer, index=True, primary_key=True)
     name = db.Column(db.String(40), nullable=False)
     image_file = db.Column(db.String(40))
