@@ -114,13 +114,15 @@ def display_cart():
     """
     Route that displays a user's cart
     """
+    brands = BRANDS
+    categories = CATEGORIES
     if 'cart' not in session or len(session['cart']) <= 0:
         flash("Your cart is currently empty")
         return redirect(url_for('main.index'))
     total_price = 0
     for key, product in session['cart'].items():
         total_price += product['price']
-    return render_template('products/cart.html', title='Cart', total_price=total_price)
+    return render_template('products/cart.html', title='Cart', total_price=total_price, brands=brands, categories=categories)
 
 
 @bp.route('/delete-from-cart/<int:id>')

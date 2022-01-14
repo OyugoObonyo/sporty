@@ -23,8 +23,10 @@ def get_profile(id):
     """
     Renders profile page of particular user
     """
+    brands = BRANDS
+    categories = CATEGORIES
     user = User.query.get(id)
     name = user.username
     id = user.id
     products = Product.query.filter_by(vendor_id=id).all()
-    return render_template('main/profile.html', title=name, products=products)
+    return render_template('main/profile.html', title=name, products=products, brands=brands, categories=categories)
