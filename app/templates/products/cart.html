@@ -16,11 +16,16 @@
                     <td>{{ loop.index }}</td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.price }}</td>
+                    {% if loop.last %}
                     <td><a href="{{ url_for('products.delete_from_cart', id=key) }}" class="btn btn-sm btn-danger">Remove from cart</a></td>
+                    <td><b>TOTAL COST: {{ total_price }}</b></td>
+                    {% else %}
+                    <td><a href="{{ url_for('products.delete_from_cart', id=key) }}" class="btn btn-sm btn-danger">Remove from cart</a></td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
                 <tr>
-                    <td colspan="3">Total: {{ total_price }}</td>
+                    
                 </tr>
             </tbody>
         </table>
