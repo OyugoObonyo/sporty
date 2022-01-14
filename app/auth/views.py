@@ -1,7 +1,7 @@
 from app import db
 from app.auth import bp
 from app.auth.forms import LoginForm, RegistrationForm
-from flask import render_template, flash, url_for, request, redirect
+from flask import render_template, flash, url_for, request, redirect, session
 from app.models import User
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
@@ -54,5 +54,6 @@ def logout():
     """
     View to handle user logouts
     """
+    session.clear()
     logout_user()
     return redirect(url_for('main.index'))
