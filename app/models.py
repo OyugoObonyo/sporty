@@ -47,7 +47,6 @@ class Product(db.Model):
     """
     id = db.Column(db.Integer, index=True, primary_key=True)
     name = db.Column(db.String(40), nullable=False)
-    description = db.Column(db.String(120), nullable=False)
     prod_uuid = db.Column(db.String(36))
     image_file = db.Column(db.String(40))
     price = db.Column(db.Integer, nullable=False)
