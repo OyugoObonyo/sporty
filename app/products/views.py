@@ -96,7 +96,7 @@ def add_to_cart():
     """
     prod_id = request.form.get('product_id')
     product = Product.query.filter_by(id=prod_id).first()
-    dic_items = {prod_id: {'name': product.name, 'price': product.price, 'vendor': product.vendor_id}}
+    dic_items = {prod_id: {'name': product.name, 'price': product.price, 'session_id': current_user.id }}
     if 'cart' in session:
         if prod_id in session['cart']:
             flash('This item is already in your cart')
@@ -107,7 +107,6 @@ def add_to_cart():
     else:
         session['cart'] = dic_items
         return redirect(request.referrer)
-
 
 @bp.route('/display-cart')
 def display_cart():
