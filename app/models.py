@@ -12,7 +12,6 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, index=True, primary_key=True)
     username = db.Column(db.String(40), unique=True, nullable=False)
     email = db.Column(db.String(40), unique=True, nullable=False)
-    user_uuid = db.Column(db.String(36))
     password_hash = db.Column(db.String(128))
     products = db.relationship('Product', backref='vendor', lazy='dynamic')
 
@@ -47,7 +46,6 @@ class Product(db.Model):
     """
     id = db.Column(db.Integer, index=True, primary_key=True)
     name = db.Column(db.String(40), nullable=False)
-    prod_uuid = db.Column(db.String(36))
     image_file = db.Column(db.String(40))
     price = db.Column(db.Integer, nullable=False)
     date_posted = db.Column(db.DateTime, index=True, default=datetime.utcnow)
