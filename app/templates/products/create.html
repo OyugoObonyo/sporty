@@ -12,13 +12,6 @@
          {% endfor %}
     </p>
     <p>
-        {{ form.description.label }}<br>
-        {{ form.description(size=32) }}<br>
-        {% for error in form.description.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-    </p>
-    <p>
     <label for="category">Category</label>
     <select name="category" id="category" class="form-control" style="width: 375px;" required>
         <option value="">Choose a category</option>
