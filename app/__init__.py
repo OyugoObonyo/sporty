@@ -11,7 +11,7 @@ db = SQLAlchemy()
 migrate = Migrate(db, render_as_batch=True)
 login = LoginManager()
 login.login_view = 'auth.login'
-login.login_message = 'Please log in to view this'
+login.login_message = 'Please log in access this page'
 moment = Moment()
 
 
@@ -34,7 +34,6 @@ def create_app(config_class=Config):
 
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
-
 
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
