@@ -14,7 +14,10 @@ CATEGORIES = ['Shoes', 'Jerseys', 'Tracksuits', 'Sneakers', 'Others']
 def index():
     brands = BRANDS
     categories = CATEGORIES
-    products = Product.query.filter(Product.vendor_id != current_user.id).all()
+    if current_user.is_authenticated:
+        products = Product.query.filter(Product.vendor_id != current_user.id).all()
+    else:
+        products = Product.query.all()
     return render_template('main/index.html', title='Home', products=products, brands=brands, categories=categories)
 
 
