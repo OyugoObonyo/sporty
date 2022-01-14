@@ -9,6 +9,8 @@ class User(UserMixin, db.Model):
     """
     A class reprsenting a user table in the database
     """
+    __tablename__ = 'user'
+
     id = db.Column(db.Integer, index=True, primary_key=True)
     username = db.Column(db.String(40), unique=True, nullable=False)
     email = db.Column(db.String(40), unique=True, nullable=False)
@@ -44,6 +46,9 @@ class Product(db.Model):
     """
     A class representing a product table in the database
     """
+    __tablename__ = 'product'
+    __table_args__ = {"schema":"schema_name"}
+
     id = db.Column(db.Integer, index=True, primary_key=True)
     name = db.Column(db.String(40), nullable=False)
     image_file = db.Column(db.String(40))
