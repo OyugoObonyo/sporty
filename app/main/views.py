@@ -1,6 +1,7 @@
 from app import db
 from app.main import bp
 from flask import render_template
+from flask_login import current_user
 from app.models import User, Product
 from flask_login import login_required
 
@@ -13,7 +14,7 @@ CATEGORIES = ['Shoes', 'Jerseys', 'Tracksuits', 'Sneakers', 'Others']
 def index():
     brands = BRANDS
     categories = CATEGORIES
-    products = Product.query.all()
+    products = Product.query.filter(Product.vendor_id != current_user.id).all()
     return render_template('main/index.html', title='Home', products=products, brands=brands, categories=categories)
 
 
