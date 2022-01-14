@@ -10,10 +10,16 @@
                         <small><p>Seller: <a href = "{{ url_for('main.get_profile', id=product.vendor.id ) }}">{{ product.vendor }}</a></p></small>
                     </div>
                     <div class="card-footer text-center">
+                        {% if current_user.is_authenticated %}
                         <form action="{{ url_for('products.add_to_cart') }}" method="post">
                             <input type="hidden" name="product_id" value="{{ product.id }}">
                             <button type="submit" class="float-center btn btn-sm btn-dark">Add to cart</a>
                         </form>
+                        {% else %}
+                        <form action="{{ url_for('auth.login') }}">
+                            <button class="float-center btn btn-sm btn-dark">Start shopping</a>
+                        </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>
