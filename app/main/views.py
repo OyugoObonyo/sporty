@@ -14,7 +14,7 @@ def index():
     brands = BRANDS
     categories = CATEGORIES
     products = Product.query.all()
-    return render_template('index.html', title='Home', products=products, brands=brands, categories=categories)
+    return render_template('main/index.html', title='Home', products=products, brands=brands, categories=categories)
 
 
 @bp.route('/profile/<id>')
@@ -27,4 +27,4 @@ def get_profile(id):
     name = user.username
     id = user.id
     products = Product.query.filter_by(vendor_id=id).all()
-    return render_template('profile.html', title=name, products=products)
+    return render_template('main/profile.html', title=name, products=products)

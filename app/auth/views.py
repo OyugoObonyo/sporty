@@ -23,7 +23,7 @@ def register():
         db.session.commit()
         flash('Congratulations! Registration was successful')
         return redirect(url_for('auth.login'))
-    return render_template('register.html', title='Register', form=form)
+    return render_template('auth/register.html', title='Register', form=form)
 
 
 @bp.route('/login', methods=['GET', 'POST'], strict_slashes=False)
@@ -45,7 +45,7 @@ def login():
         if not next_page or url_parse(next_page).netloc != "":
             next_page = url_for('main.index')
         return redirect(next_page)
-    return render_template('login.html', title='Log In', form=form)
+    return render_template('auth/login.html', title='Log In', form=form)
 
 
 @bp.route('/logout', methods=['GET', 'POST'], strict_slashes=False)

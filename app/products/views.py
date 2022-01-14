@@ -52,7 +52,7 @@ def create():
             return redirect(url_for('main.index'))
     except RequestEntityTooLarge:
         return "Upload Limit is 16 MB"
-    return render_template('create.html', title='Create', brands=brands, categories=categories, form=form)
+    return render_template('products/create.html', title='Create', brands=brands, categories=categories, form=form)
 
 
 @bp.route('/display-brand/<name>')
@@ -63,7 +63,7 @@ def display_brand(name):
     brands = BRANDS
     categories = CATEGORIES
     products = Product.query.filter_by(brand=name).all()
-    return render_template('brands.html', title=name, products=products, brands=brands, categories=categories)
+    return render_template('products/brands.html', title=name, products=products, brands=brands, categories=categories)
 
 
 @bp.route('/display-category/<name>')
@@ -74,7 +74,7 @@ def display_category(name):
     brands = BRANDS
     categories = CATEGORIES
     products = Product.query.filter_by(category=name).all()
-    return render_template('/categories.html', title=name, products=products, brands=brands, categories=categories)
+    return render_template('products/categories.html', title=name, products=products, brands=brands, categories=categories)
 
 
 def merge_dict(dict_1, dict_2):
@@ -120,7 +120,7 @@ def display_cart():
     total_price = 0
     for key, product in session['cart'].items():
         total_price += product['price']
-    return render_template('cart.html', title='Cart', total_price=total_price)
+    return render_template('products/cart.html', title='Cart', total_price=total_price)
 
 
 @bp.route('/delete-from-cart/<int:id>')
