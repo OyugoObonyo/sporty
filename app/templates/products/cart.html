@@ -12,6 +12,7 @@
             </thead>
             <tbody>
                 {% for key, product in session['cart'].items()  %}
+                {% if product.session_id == current_user.id %}
                 <tr>
                     <td>{{ loop.index }}</td>
                     <td>{{ product.name }}</td>
@@ -23,6 +24,7 @@
                     <td><a href="{{ url_for('products.delete_from_cart', id=key) }}" class="btn btn-sm btn-danger">Remove from cart</a></td>
                     {% endif %}
                 </tr>
+                {% endif %}
                 {% endfor %}
                 <tr>
                     
