@@ -1,0 +1,20 @@
+ISSUES: -SATURDAY - DEPLOY
+        SATURDAY- Check how to generate a hashed hardcoded string and generate string== os.urandom.hex() 
+        FRIDAY - Blueprint the goddamn app
+          
+        FRIDAY -Last thing on Friday after working on other stuff - Error pages (400s and 500s Error)
+        TODAY - Check overall document styling, update styles and know why navbar doesnt have end-to-end coverage
+        TODAY - Inconsistency in form - try form.body(cols=50, rows=20, class='xxx', style='background:#ccc;') }}
+        TODAY - Clean frontend, ADD SLIDESHOW ON INDEX PAGE
+        TODAY - Resize image beautifully
+        FUTURE UPDATE == Integrate Online paymenst to complete orders
+        FRIDAY - Delete description field from products moodel
+        TODAY - Check complete order and total price indentation in cart template
+        FRIDAY - Ensure cart is unique to each logged in user
+        TODAY - Cart button on Bugti ecommerce video 26
+        FRIDAY- Only display products not advertised by user
+        TODAY - Change all name 'items' to 'products!'
+        TODAY - Display name or uuid on search bar, avoid displaying primary key
+        TODAY - Remove deleted products from session
+
+Timeout - 4PM!
