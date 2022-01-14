@@ -7,5 +7,5 @@ ISSUES: -SATURDAY - DEPLOY
         (-Potential solutions:
           1) Add stock count to product model and limit add to cart functionality in cases where
               stock count == 0. Only delete products whose stock count == 0  from session
-              )          )
-        Timeout - 4PM!
+              
+              )          
