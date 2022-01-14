@@ -47,7 +47,7 @@ class Product(db.Model):
     A class representing a product table in the database
     """
     __tablename__ = 'product'
-    __table_args__ = {"schema":"schema_name"}
+    __table_args__ = {'schema':'schema_name'}
 
     id = db.Column(db.Integer, index=True, primary_key=True)
     name = db.Column(db.String(40), nullable=False)
