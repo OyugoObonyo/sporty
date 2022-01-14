@@ -46,7 +46,7 @@ def create():
             if form.price.data <= 0:
                 flash('Price should be greater than Ksh.0')
                 return redirect(url_for('products.create'))
-            product = Product(name=form.name.data, description=form.description.data, brand=form.brand.data, image_file=img_file, category=form.category.data, price=form.price.data, prod_uuid=product_uuid, vendor=current_user)
+            product = Product(name=form.name.data, brand=form.brand.data, image_file=img_file, category=form.category.data, price=form.price.data, prod_uuid=product_uuid, vendor=current_user)
             db.session.add(product)
             db.session.commit()
             return redirect(url_for('main.index'))
