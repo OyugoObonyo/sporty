@@ -9,7 +9,6 @@ class ProductForm(FlaskForm):
     Form filled in when user intends to post a product
     """
     name = StringField('Name', validators=[DataRequired()])
-    description = StringField('Description', validators=[DataRequired()])
     image = FileField('Image', validators=[DataRequired(), FileAllowed(['jpg', 'jpeg', 'png'])])
     brand = StringField('Brand', validators=[DataRequired()])
     category = StringField('Category', validators=[DataRequired()])
