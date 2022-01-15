@@ -41,8 +41,6 @@ def create_app(config_class=Config):
     from app.products import bp as products_bp
     app.register_blueprint(products_bp)
 
-    db.create_all()
-
     return app
 
 
